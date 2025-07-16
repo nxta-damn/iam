@@ -1,0 +1,31 @@
+name: CI Pull Request
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - ready_for_review
+    branches:
+      - main
+
+jobs:
+  version:
+    name: "Set version"
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.set-version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install python-semantic-release
+        run: pip install python-semantic-release
+      - name: Generate version
+        id: set-version
+        run: |
+          VERSION=$(semantic-release version --print-last-released)-${{ github.run_id }}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
