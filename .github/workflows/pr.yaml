@@ -32,6 +32,14 @@ jobs:
       - name: Lint with pre-commit
         run: ./.venv/bin/pre-commit run --all-files
 
+  tests:
+    name: 'Pytest'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync --locked --all-extras --tests
+      - run: uv run pytest
 
   version:
     name: "Set version"
