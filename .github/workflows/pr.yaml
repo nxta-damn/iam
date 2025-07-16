@@ -7,7 +7,7 @@ on:
       - synchronize
       - ready_for_review
     branches:
-      - master
+      - main
 
 jobs:
   lint:
