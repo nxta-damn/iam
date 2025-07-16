@@ -32,6 +32,7 @@ jobs:
       - name: Lint with pre-commit
         run: ./.venv/bin/pre-commit run --all-files
 
+
   version:
     name: "Set version"
     runs-on: ubuntu-latest
