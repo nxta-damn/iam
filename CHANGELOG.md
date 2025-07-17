@@ -2,6 +2,67 @@
 
 <!-- version list -->
 
+## v1.0.1 (2025-07-17)
+
+### Bug Fixes
+
+- Circular import in access domain module
+  ([`653768b`](https://github.com/nxta-damn/iam/commit/653768be3863ba8e158d3bac4624e063df23414c))
+
+- Circular import in access domain module
+  ([`1983e3e`](https://github.com/nxta-damn/iam/commit/1983e3e875a3a055dcc2ad89f3a83bdad780fdde))
+
+- Identities imports in access domain module
+  ([`c81a7e4`](https://github.com/nxta-damn/iam/commit/c81a7e428cdc54392b13b05af824ea7929e4c8a9))
+
+### Chores
+
+- Add Dockerfile for application
+  ([`bd93ba4`](https://github.com/nxta-damn/iam/commit/bd93ba48e342ea8980fb3e4d7232d6f3587ae3b8))
+
+- Add Dockerfile for application
+  ([`1debf30`](https://github.com/nxta-damn/iam/commit/1debf302dd70480db8c7e0cc1043eb7f7077307f))
+
+- Add pull-request support in CI
+  ([`88ccfef`](https://github.com/nxta-damn/iam/commit/88ccfef9111ff0db8f3140d2a78192bcab71990f))
+
+- Add pull-request support in CI
+  ([`0697791`](https://github.com/nxta-damn/iam/commit/06977912b44aee25f3a86f2b4a313c8edd339e2e))
+
+- Add pull-request support in CI
+  ([`7519585`](https://github.com/nxta-damn/iam/commit/7519585e61a8a46f65eefbcec514cf244b5425dc))
+
+- Edit branches on CI pr workflow
+  ([`f60e445`](https://github.com/nxta-damn/iam/commit/f60e445805e91fc15282b3b0b4ed13d924499a21))
+
+- Edit branches on CI pr workflow and add mock-test
+  ([`3d29580`](https://github.com/nxta-damn/iam/commit/3d29580983b9b336268618ec5407f4636c2da431))
+
+- Edit lint and tests job
+  ([`ac23bdd`](https://github.com/nxta-damn/iam/commit/ac23bdd0c1300351d4dd41ddf69cca86b15fa5e5))
+
+- Edit lint and tests job
+  ([`11cdf99`](https://github.com/nxta-damn/iam/commit/11cdf99d627c35fe9f45298363cb92376dccb6cd))
+
+- Edit lint job by adding name to step
+  ([`55259f8`](https://github.com/nxta-damn/iam/commit/55259f8d1f663a4259b4ab7b952524556cc2c59b))
+
+- Edit lint job by running from uv
+  ([`cad47d9`](https://github.com/nxta-damn/iam/commit/cad47d914eca89aec15a4d3b33d7a316b05e0983))
+
+- Setup lint with pre-commit in CI
+  ([`bccc345`](https://github.com/nxta-damn/iam/commit/bccc3456b6a9feba97f555cf9c65e45c6017501c))
+
+- Setup lint with pre-commit in CI
+  ([`dd0f8b3`](https://github.com/nxta-damn/iam/commit/dd0f8b397e9836a39549da80ec7fa71151ea6857))
+
+- Setups tests runnig in CI
+  ([`595562d`](https://github.com/nxta-damn/iam/commit/595562db36caa5528d980e280397a82ba125864d))
+
+- Setups tests runnig in CI
+  ([`50e466e`](https://github.com/nxta-damn/iam/commit/50e466e2063ef456be08f827cc70c457dcef9a01))
+
+
 ## v1.0.0 (2025-07-16)
 
 - Initial Release
