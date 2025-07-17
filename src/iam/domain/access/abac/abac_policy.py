@@ -1,14 +1,12 @@
 from enum import StrEnum
-from typing import NewType
 
 from iam.domain.access.abac.events import PolicyAlghorithmChanged, PolicyDescriptionChanged
+from iam.domain.access.abac.policy_id import PolicyIdentity
 from iam.domain.access.abac.value_objects.policy_attribute import AttributeValue
 from iam.domain.access.abac.value_objects.policy_rule import PolicyRule, RuleEffect
 from iam.domain.access.abac.value_objects.policy_target import PolicyTarget
 from iam.domain.shared.entity import EventTrackableEntity, IdentifiedEntity
 from iam.domain.shared.events import DomainEventAdder
-
-PolicyIdentity = NewType("PolicyIdentity", str)
 
 
 class PolicyAlghorithm(StrEnum):

@@ -1,4 +1,5 @@
-from iam.domain.access.session.session import IdentifiedAuthSession, SessionIdentity
+from iam.domain.access.session.session import IdentifiedAuthSession
+from iam.domain.access.session.session_id import SessionIdentity
 from iam.domain.shared.specification import Specification
 from iam.domain.shared.user_id import UserIdentity
 

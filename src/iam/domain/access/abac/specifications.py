@@ -1,4 +1,5 @@
-from iam.domain.access.abac.abac_policy import IdentifiedPolicy, PolicyIdentity
+from iam.domain.access.abac.abac_policy import IdentifiedPolicy
+from iam.domain.access.abac.policy_id import PolicyIdentity
 from iam.domain.access.abac.value_objects.policy_target import PolicyTarget
 from iam.domain.shared.specification import Specification
 

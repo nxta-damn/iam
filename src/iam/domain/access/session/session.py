@@ -1,12 +1,9 @@
 from datetime import datetime
-from typing import NewType
-from uuid import UUID
 
+from iam.domain.access.session.session_id import SessionIdentity
 from iam.domain.shared.entity import EventTrackableEntity, IdentifiedEntity
 from iam.domain.shared.events import DomainEventAdder
 from iam.domain.shared.user_id import UserIdentity
-
-SessionIdentity = NewType("SessionIdentity", UUID)
 
 
 class IdentifiedAuthSession(IdentifiedEntity[SessionIdentity], EventTrackableEntity):
