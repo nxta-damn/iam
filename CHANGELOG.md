@@ -2,6 +2,22 @@
 
 <!-- version list -->
 
+## v1.0.2 (2025-07-17)
+
+### Bug Fixes
+
+- Matchnig rules depending on algorithm
+  ([`1385fd6`](https://github.com/nxta-damn/iam/commit/1385fd6326e61acb279d4401729dc13aa929ecf5))
+
+- Matchnig rules depending on algorithm
+  ([`298d991`](https://github.com/nxta-damn/iam/commit/298d9918aa01477eb433e1b13586ba6a006abfda))
+
+### Continuous Integration
+
+- Fix the --locked flag for uv
+  ([`e2031bd`](https://github.com/nxta-damn/iam/commit/e2031bd38ff9048919151451f20d9472c1988c17))
+
+
 ## v1.0.1 (2025-07-17)
 
 ### Bug Fixes
