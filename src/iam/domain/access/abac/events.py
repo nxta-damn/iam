@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from iam.domain.access.abac.abac_policy import PolicyIdentity
+from iam.domain.access.abac.policy_id import PolicyIdentity
 from iam.domain.access.abac.value_objects.policy_rule import PolicyRule
 from iam.domain.shared.events import DomainEvent
 
