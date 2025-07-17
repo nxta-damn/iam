@@ -44,9 +44,13 @@ class IdentifiedPolicy(IdentifiedEntity[PolicyIdentity], EventTrackableEntity):
         self.add_event(event=event)
 
     def is_allowed(self, attributes: dict[str, AttributeValue]) -> bool:
-        for rule in self.rules:
-            if rule.evaluate(attributes=attributes):
-                return rule.effect == RuleEffect.PERMIT
+        matching_rules = [rule for rule in self.rules if rule.evaluate(attributes=attributes)]
+
+        if self._alghorithm == PolicyAlghorithm.DENY_OVERRIDES and matching_rules:
+            return all(rule.effect == RuleEffect.PERMIT for rule in matching_rules)
+
+        if self._alghorithm == PolicyAlghorithm.ALLOW_OVERRIDES and matching_rules:
+            return any(rule.effect == RuleEffect.PERMIT for rule in matching_rules)
 
         return False
 
