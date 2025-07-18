@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v1.2.0 (2025-07-18)
+
+### Features
+
+- Add opportunity for refreshing session
+  ([`930c7c6`](https://github.com/nxta-damn/iam/commit/930c7c6cbc88ce19954bc590cb2df453e8b324d3))
+
+
 ## v1.1.0 (2025-07-18)
 
 ### Features
