@@ -1,7 +1,14 @@
+from enum import StrEnum
+
 from iam.domain.identity.events import FullnameChanged, PasswordChanged, UsernameChanged
 from iam.domain.identity.value_objects.fullname import Fullname
 from iam.domain.shared.entity import EventTrackableEntity, IdentifiedEntity
 from iam.domain.shared.user_id import UserIdentity
+
+
+class UserType(StrEnum):
+    DEFAULT = "default-user"
+    SUPER_USER = "super-user"
 
 
 class IdentifiedUser(IdentifiedEntity[UserIdentity], EventTrackableEntity):
@@ -12,12 +19,14 @@ class IdentifiedUser(IdentifiedEntity[UserIdentity], EventTrackableEntity):
         fullname: Fullname,
         username: str,
         password: bytes,
+        user_type: UserType = UserType.DEFAULT,
     ) -> None:
         IdentifiedEntity.__init__(self, identity)
 
         self.fullname = fullname
         self.username = username
         self.password = password
+        self.user_type = user_type
 
     def change_fullname(self, fullname: Fullname) -> None:
         self.fullname = fullname
