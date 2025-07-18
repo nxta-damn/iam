@@ -1,5 +1,6 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
+from iam.domain.identity.user import UserType
 from iam.domain.identity.value_objects.fullname import Fullname
 from iam.domain.shared.events import DomainEvent
 from iam.domain.shared.user_id import UserIdentity
@@ -11,6 +12,7 @@ class UserCreated(DomainEvent):
     username: str
     fullname: Fullname
     password: bytes
+    user_type: UserType = field(default=UserType.DEFAULT)
 
 
 @dataclass(frozen=True, kw_only=True, slots=True)
