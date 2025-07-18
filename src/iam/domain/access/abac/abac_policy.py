@@ -6,7 +6,6 @@ from iam.domain.access.abac.value_objects.policy_attribute import AttributeValue
 from iam.domain.access.abac.value_objects.policy_rule import PolicyRule, RuleEffect
 from iam.domain.access.abac.value_objects.policy_target import PolicyTarget
 from iam.domain.shared.entity import EventTrackableEntity, IdentifiedEntity
-from iam.domain.shared.events import DomainEventAdder
 
 
 class PolicyAlghorithm(StrEnum):
@@ -18,54 +17,36 @@ class IdentifiedPolicy(IdentifiedEntity[PolicyIdentity], EventTrackableEntity):
     def __init__(
         self,
         identity: PolicyIdentity,
-        event_adder: DomainEventAdder,
         *,
         description: str,
         target: PolicyTarget,
         rules: list[PolicyRule],
         alghorithm: PolicyAlghorithm = PolicyAlghorithm.ALLOW_OVERRIDES,
     ) -> None:
-        EventTrackableEntity.__init__(self, event_adder=event_adder)
         IdentifiedEntity.__init__(self, identity=identity)
 
-        self._description = description
-        self._alghorithm = alghorithm
-        self._rules = rules
-        self._target = target
+        self.description = description
+        self.alghorithm = alghorithm
+        self.rules = rules
+        self.target = target
 
     def change_description(self, description: str) -> None:
-        self._description = description
-        event = PolicyDescriptionChanged(identity=self._identity, description=self._description)
+        self.description = description
+        event = PolicyDescriptionChanged(identity=self.identity, description=self.description)
         self.add_event(event=event)
 
     def change_alghorithm(self, alghorithm: PolicyAlghorithm) -> None:
-        self._alghorithm = alghorithm
-        event = PolicyAlghorithmChanged(identity=self._identity, alghorithm=self._alghorithm)
+        self.alghorithm = alghorithm
+        event = PolicyAlghorithmChanged(identity=self.identity, alghorithm=self.alghorithm)
         self.add_event(event=event)
 
     def is_allowed(self, attributes: dict[str, AttributeValue]) -> bool:
         matching_rules = [rule for rule in self.rules if rule.evaluate(attributes=attributes)]
 
-        if self._alghorithm == PolicyAlghorithm.DENY_OVERRIDES and matching_rules:
+        if self.alghorithm == PolicyAlghorithm.DENY_OVERRIDES and matching_rules:
             return all(rule.effect == RuleEffect.PERMIT for rule in matching_rules)
 
-        if self._alghorithm == PolicyAlghorithm.ALLOW_OVERRIDES and matching_rules:
+        if self.alghorithm == PolicyAlghorithm.ALLOW_OVERRIDES and matching_rules:
             return any(rule.effect == RuleEffect.PERMIT for rule in matching_rules)
 
         return False
-
-    @property
-    def target(self) -> PolicyTarget:
-        return self._target
-
-    @property
-    def alghorithm(self) -> PolicyAlghorithm:
-        return self._alghorithm
-
-    @property
-    def rules(self) -> list[PolicyRule]:
-        return self._rules.copy()
-
-    @property
-    def description(self) -> str:
-        return self._description

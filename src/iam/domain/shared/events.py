@@ -31,11 +31,6 @@ class DomainEvent:
         return f"{self.event_type}({self.event_id})"
 
 
-class DomainEventAdder(ABC):
-    @abstractmethod
-    def add_event(self, event: DomainEvent) -> None: ...
-
-
 class EventHandler[TEvent: DomainEvent](ABC):
     @abstractmethod
     async def handle(self, event: TEvent) -> None: ...

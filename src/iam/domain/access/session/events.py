@@ -16,3 +16,9 @@ class SessionCreated(DomainEvent):
 @dataclass(frozen=True, kw_only=True, slots=True)
 class SessionRevoked(DomainEvent):
     identity: SessionIdentity
+
+
+@dataclass(frozen=True, kw_only=True, slots=True)
+class SessionRefreshed(DomainEvent):
+    identity: SessionIdentity
+    expires_at: datetime

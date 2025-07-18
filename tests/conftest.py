@@ -1,7 +1,7 @@
-from faker import Faker
 from pytest import fixture
+from faker import Faker
 
 
-@fixture(scope="session")
+@fixture(scope='function')
 def faker() -> Faker:
     return Faker()
