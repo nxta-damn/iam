@@ -2,6 +2,17 @@
 
 <!-- version list -->
 
+## v1.2.1 (2025-07-18)
+
+### Bug Fixes
+
+- Create specifications more compact
+  ([`87664ea`](https://github.com/nxta-damn/iam/commit/87664ea6098226903bf39068a6798a8dda53fa5e))
+
+- Create specifications more compact
+  ([`e719839`](https://github.com/nxta-damn/iam/commit/e7198396683c30a92b9c7792d18d3abf0f088061))
+
+
 ## v1.2.0 (2025-07-18)
 
 ### Features
