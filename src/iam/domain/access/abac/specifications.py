@@ -9,13 +9,7 @@ class IdentifiedPolicyByTargetSpec(Specification[IdentifiedPolicy]):
         self._target = target
 
     def is_satisfied_by(self, entity: IdentifiedPolicy | None = None) -> bool:
-        if entity:
-            return entity.target == self._target
-        return False
-
-    @property
-    def target(self) -> PolicyTarget:
-        return self._target
+        return entity.target == self._target if entity else False
 
 
 class IdentifiedPolicyByIdentitySpec(Specification[IdentifiedPolicy]):
@@ -23,10 +17,4 @@ class IdentifiedPolicyByIdentitySpec(Specification[IdentifiedPolicy]):
         self._identity = identity
 
     def is_satisfied_by(self, entity: IdentifiedPolicy | None = None) -> bool:
-        if entity:
-            return entity.identity == self._identity
-        return False
-
-    @property
-    def identity(self) -> PolicyIdentity:
-        return self._identity
+        return entity.identity == self._identity if entity else False

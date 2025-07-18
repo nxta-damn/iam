@@ -9,13 +9,7 @@ class IdentifiedSessionByIdentitySpec(Specification[IdentifiedAuthSession]):
         self._identity = identity
 
     def is_satisfied_by(self, entity: IdentifiedAuthSession | None = None) -> bool:
-        if entity:
-            return self._identity == entity.identity
-        return False
-
-    @property
-    def identity(self) -> SessionIdentity:
-        return self._identity
+        return self._identity == entity.identity if entity else False
 
 
 class IdentifiedSessionByUserIdentitySpec(Specification[IdentifiedAuthSession]):
@@ -23,10 +17,4 @@ class IdentifiedSessionByUserIdentitySpec(Specification[IdentifiedAuthSession]):
         self._user_id = user_id
 
     def is_satisfied_by(self, entity: IdentifiedAuthSession | None = None) -> bool:
-        if entity:
-            return self._user_id == entity.user_id
-        return False
-
-    @property
-    def user_id(self) -> UserIdentity:
-        return self._user_id
+        return self._user_id == entity.user_id if entity else False
