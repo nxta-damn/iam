@@ -9,13 +9,7 @@ class IdentifiedUserByUsernameSpec(Specification[IdentifiedUser]):
         self._username = username
 
     def is_satisfied_by(self, entity: IdentifiedUser | None = None) -> bool:
-        if entity:
-            return self._username == entity.username
-        return False
-
-    @property
-    def username(self) -> str:
-        return self._username
+        return self._username == entity.username if entity else False
 
 
 class IdentifiedUserByIdentitySpec(Specification[IdentifiedUser]):
@@ -23,13 +17,7 @@ class IdentifiedUserByIdentitySpec(Specification[IdentifiedUser]):
         self._identity = identity
 
     def is_satisfied_by(self, entity: IdentifiedUser | None = None) -> bool:
-        if entity:
-            return self._identity == entity.identity
-        return False
-
-    @property
-    def identity(self) -> UserIdentity:
-        return self._identity
+        return self._identity == entity.identity if entity else False
 
 
 class IdentifiedUserByFullnameSpec(Specification[IdentifiedUser]):
@@ -37,10 +25,4 @@ class IdentifiedUserByFullnameSpec(Specification[IdentifiedUser]):
         self._fullname = fullname
 
     def is_satisfied_by(self, entity: IdentifiedUser | None = None) -> bool:
-        if entity:
-            return self._fullname == entity.fullname
-        return False
-
-    @property
-    def fullname(self) -> Fullname:
-        return self._fullname
+        return self._fullname == entity.fullname if entity else False
