@@ -2,6 +2,17 @@
 
 <!-- version list -->
 
+## v1.3.0 (2025-07-18)
+
+### Features
+
+- Add super-user support
+  ([`1844d66`](https://github.com/nxta-damn/iam/commit/1844d66aac3073c85c8094e7bec28a9427c13da9))
+
+- Add super-user support
+  ([`903f1dd`](https://github.com/nxta-damn/iam/commit/903f1dd4af29b6fd9e054975a2b42d8c8f3c26ed))
+
+
 ## v1.2.1 (2025-07-18)
 
 ### Bug Fixes
