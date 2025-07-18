@@ -2,6 +2,17 @@
 
 <!-- version list -->
 
+## v1.1.0 (2025-07-18)
+
+### Features
+
+- Add factory for ABAC policy
+  ([`2de28f3`](https://github.com/nxta-damn/iam/commit/2de28f3b957ae31d83e39378a1ac32b3aab0f253))
+
+- Add factory for ABAC policy
+  ([`6e6989e`](https://github.com/nxta-damn/iam/commit/6e6989e5ba6a5052612a5ebeffb7a7e076a30f5d))
+
+
 ## v1.0.2 (2025-07-17)
 
 ### Bug Fixes
