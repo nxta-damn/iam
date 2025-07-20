@@ -2,6 +2,19 @@
 
 <!-- version list -->
 
+## v1.4.0 (2025-07-20)
+
+### Bug Fixes
+
+- Add new wat to rise event for revoked sessions
+  ([`b8d44b9`](https://github.com/nxta-damn/iam/commit/b8d44b922dad6f1ec6f604ccd4d3861123150ee8))
+
+### Features
+
+- Bussines rule orchestration
+  ([`655b5ad`](https://github.com/nxta-damn/iam/commit/655b5ad504f51cba1c09492faab998101e6ac66b))
+
+
 ## v1.3.0 (2025-07-18)
 
 ### Features
