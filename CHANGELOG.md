@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v1.4.3 (2025-07-20)
+
+### Bug Fixes
+
+- Remove policy read model
+  ([`a4444ec`](https://github.com/nxta-damn/iam/commit/a4444ec04ab9809c9b232c5fdb803739378fa8c8))
+
+
 ## v1.4.2 (2025-07-20)
 
 ### Bug Fixes
