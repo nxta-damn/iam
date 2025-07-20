@@ -2,7 +2,7 @@ from abc import ABC
 from collections.abc import Hashable
 from typing import NoReturn
 
-from iam.domain.shared.events import DomainEvent
+from iam.domain.shared.events import Event
 
 
 class IdentifiedEntity[TEntityID: Hashable](ABC):
@@ -34,12 +34,12 @@ class IdentifiedEntity[TEntityID: Hashable](ABC):
 
 class EventTrackableEntity(ABC):
     def __init__(self) -> None:
-        self._events: list[DomainEvent] = []
+        self._events: list[Event] = []
 
-    def add_event(self, event: DomainEvent) -> None:
+    def add_event(self, event: Event) -> None:
         self._events.append(event)
 
-    def raise_events(self) -> list[DomainEvent]:
+    def raise_events(self) -> list[Event]:
         events = self._events.copy()
         self._events.clear()
         return events

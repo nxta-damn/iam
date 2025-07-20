@@ -2,11 +2,11 @@ from dataclasses import dataclass
 
 from iam.domain.access.abac.policy_id import PolicyIdentity
 from iam.domain.access.abac.value_objects.policy_rule import PolicyRule
-from iam.domain.shared.events import DomainEvent
+from iam.domain.shared.events import Event
 
 
 @dataclass(frozen=True, slots=True, kw_only=True)
-class PolicyCreated(DomainEvent):
+class PolicyCreated(Event):
     identity: PolicyIdentity
     description: str
     alghorithm: str
@@ -14,17 +14,17 @@ class PolicyCreated(DomainEvent):
 
 
 @dataclass(frozen=True, slots=True, kw_only=True)
-class PolicyAlghorithmChanged(DomainEvent):
+class PolicyAlghorithmChanged(Event):
     identity: PolicyIdentity
     alghorithm: str
 
 
 @dataclass(frozen=True, slots=True, kw_only=True)
-class PolicyDescriptionChanged(DomainEvent):
+class PolicyDescriptionChanged(Event):
     identity: PolicyIdentity
     description: str
 
 
 @dataclass(frozen=True, slots=True, kw_only=True)
-class PolicyRemoved(DomainEvent):
+class PolicyRemoved(Event):
     identity: PolicyIdentity
