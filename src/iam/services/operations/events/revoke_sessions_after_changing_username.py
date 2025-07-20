@@ -49,9 +49,7 @@ class RevokeSessionAfterChangingUsername(EventHandler[UsernameChanged]):
         sessions = self._session_repository.find(specification=specification).all()
 
         for session in sessions:
-            session.add_event(event=SessionRevoked(identity=session.identity))
-            for notification in session.raise_events():
-                self._event_publisher.publish(event=notification)
+            self._event_publisher.publish(event=SessionRevoked(identity=session.identity))
             self._session_repository.delete(session=session)
 
         self._transaction.commit()
