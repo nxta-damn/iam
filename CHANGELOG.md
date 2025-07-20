@@ -2,6 +2,17 @@
 
 <!-- version list -->
 
+## v1.4.2 (2025-07-20)
+
+### Bug Fixes
+
+- Change namaing of some files
+  ([`9ddcc57`](https://github.com/nxta-damn/iam/commit/9ddcc57db36bc3d8189522d053954dc71b6a60f7))
+
+- Change namaing of some files
+  ([`fb74f88`](https://github.com/nxta-damn/iam/commit/fb74f88b2baa95af0051fbc59b896e8bdb8d8ea1))
+
+
 ## v1.4.1 (2025-07-20)
 
 ### Bug Fixes
