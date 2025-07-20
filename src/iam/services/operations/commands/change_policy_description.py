@@ -74,8 +74,7 @@ class ChangePolicyDescriptionHandler(CommandHandler[ChangePolicyDescription, Non
 
         if not policy:
             raise ApplicationError(
-                message=f"Policy with id: {command.policy_identity} is not found",
-                error_type=ErrorType.NOT_FOUND,
+                message=f"Policy with id: {command.policy_identity} not found", error_type=ErrorType.NOT_FOUND
             )
 
         policy.change_description(description=command.description)
@@ -87,6 +86,6 @@ class ChangePolicyDescriptionHandler(CommandHandler[ChangePolicyDescription, Non
 
         LOGGER.info(
             "Policy description changed",
-            policy_identity=command.policy_identity,
+            policy_id=command.policy_identity,
             current_user=current_user_id,
         )

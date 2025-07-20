@@ -75,8 +75,7 @@ class ChangePolicyAlghorithmHandler(CommandHandler[ChangePolicyAlgorithm, None])
 
         if not policy:
             raise ApplicationError(
-                message=f"Policy with id: {command.policy_identity} is not found",
-                error_type=ErrorType.NOT_FOUND,
+                message=f"Policy with id: {command.policy_identity} not found", error_type=ErrorType.NOT_FOUND
             )
 
         policy.change_alghorithm(alghorithm=command.algorithm)
