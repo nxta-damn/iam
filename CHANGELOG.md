@@ -2,6 +2,17 @@
 
 <!-- version list -->
 
+## v1.4.1 (2025-07-20)
+
+### Bug Fixes
+
+- Change code style
+  ([`4abd4ca`](https://github.com/nxta-damn/iam/commit/4abd4ca7a0258c2bad1a5d59adfdfc7363f30cb7))
+
+- Change code style
+  ([`cb4f1ed`](https://github.com/nxta-damn/iam/commit/cb4f1eda60b6e4e7f04f1b5c0a2bab12fa7c7bd3))
+
+
 ## v1.4.0 (2025-07-20)
 
 ### Bug Fixes
