@@ -15,15 +15,15 @@ LOGGER: structlog.stdlib.BoundLogger = structlog.get_logger()
 
 
 @dataclass(frozen=True, slots=True, kw_only=True)
-class LogOutUser(Command[None]): ...
+class UnauthenticateUser(Command[None]): ...
 
 
 @dataclass(frozen=True, slots=True, kw_only=True)
-class UserLoggedOut(Event):
+class UserUnauthenticated(Event):
     user_id: UserIdentity
 
 
-class LogOutUserHandler(CommandHandler[LogOutUser, None]):
+class UnauthenticateUserHandler(CommandHandler[UnauthenticateUser, None]):
     def __init__(
         self,
         authentication_context: AuthenticationContext,
@@ -34,7 +34,7 @@ class LogOutUserHandler(CommandHandler[LogOutUser, None]):
         self._event_publisher = event_publisher
         self._user_repository = user_repository
 
-    def handle(self, command: LogOutUser) -> None:
+    def handle(self, command: UnauthenticateUser) -> None:
         current_user_id = self._authentication_context.current_user_id()
 
         if not current_user_id:
@@ -48,7 +48,7 @@ class LogOutUserHandler(CommandHandler[LogOutUser, None]):
                 message=f"User with id: {current_user_id} is not found", error_type=ErrorType.NOT_FOUND
             )
 
-        current_user.add_event(event=UserLoggedOut(user_id=current_user_id))
+        current_user.add_event(event=UserUnauthenticated(user_id=current_user_id))
 
         for event in current_user.raise_events():
             self._event_publisher.publish(event=event)
