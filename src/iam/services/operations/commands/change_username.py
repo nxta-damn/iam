@@ -51,8 +51,7 @@ class ChangeUsernameHandler(CommandHandler[ChangeUsername, None]):
 
         if existing_user:
             raise ApplicationError(
-                message=f"User with username: {command.new_username} already exists",
-                error_type=ErrorType.CONFLICT,
+                message=f"User with username: {command.new_username} exists", error_type=ErrorType.CONFLICT
             )
 
         if not self._password_hasher.check_password(command.raw_password, current_user.password):

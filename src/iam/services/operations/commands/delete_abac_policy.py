@@ -72,8 +72,7 @@ class DeleteAbacPolicyHandler(CommandHandler[DeleteAbacPolicy, None]):
 
         if not policy:
             raise ApplicationError(
-                message=f"Policy with id: {command.policy_identity} is not found",
-                error_type=ErrorType.NOT_FOUND,
+                message=f"Policy with id: {command.policy_identity} not found", error_type=ErrorType.NOT_FOUND
             )
 
         policy.add_event(event=PolicyRemoved(identity=command.policy_identity))
@@ -84,6 +83,4 @@ class DeleteAbacPolicyHandler(CommandHandler[DeleteAbacPolicy, None]):
         self._policy_repository.delete(policy)
         self._transaction.commit()
 
-        LOGGER.info(
-            "Abac policy deleted", policy_identity=command.policy_identity, current_user=current_user_id
-        )
+        LOGGER.info("Abac policy deleted", policy_id=command.policy_identity, current_user=current_user_id)

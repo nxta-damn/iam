@@ -45,7 +45,7 @@ class CreateSuperUserHandler(CommandHandler[CreateSuperUser, UserIdentity]):
 
         if existing_user:
             raise ApplicationError(
-                message=f"User with username {command.username} already exists",
+                message=f"User with username {command.username} exists",
                 error_type=ErrorType.CONFLICT,
             )
 
