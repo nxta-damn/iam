@@ -19,13 +19,13 @@ LOGGER: structlog.stdlib.BoundLogger = structlog.get_logger()
 
 
 @dataclass(frozen=True, slots=True, kw_only=True)
-class RegisterUser(Command[UserIdentity]):
+class RegisterUserViaBasic(Command[UserIdentity]):
     fullname: Fullname
     username: str
     raw_password: str
 
 
-class RegisterUserHandler(CommandHandler[RegisterUser, UserIdentity]):
+class RegisterUserViaBasicHandler(CommandHandler[RegisterUserViaBasic, UserIdentity]):
     def __init__(
         self,
         transaction: Transaction,
@@ -42,7 +42,7 @@ class RegisterUserHandler(CommandHandler[RegisterUser, UserIdentity]):
         self._authentication_context = authentication_context
         self._password_hasher = password_hasher
 
-    def handle(self, command: RegisterUser) -> UserIdentity:
+    def handle(self, command: RegisterUserViaBasic) -> UserIdentity:
         current_user_id = self._authentication_context.current_user_id()
 
         if current_user_id:
