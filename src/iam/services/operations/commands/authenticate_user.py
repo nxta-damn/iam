@@ -16,17 +16,17 @@ LOGGER: structlog.stdlib.BoundLogger = structlog.get_logger()
 
 
 @dataclass(frozen=True, slots=True, kw_only=True)
-class SignInUser(Command[UserIdentity]):
+class AuthenticateUser(Command[UserIdentity]):
     username: str
     raw_password: str
 
 
 @dataclass(frozen=True, slots=True, kw_only=True)
-class UserSignedIn(Event):
+class UserAuthenticated(Event):
     user_id: UserIdentity
 
 
-class SignInUserHandler(CommandHandler[SignInUser, UserIdentity]):
+class AuthenticateUserHandler(CommandHandler[AuthenticateUser, UserIdentity]):
     def __init__(
         self,
         authentication_context: AuthenticationContext,
@@ -39,7 +39,7 @@ class SignInUserHandler(CommandHandler[SignInUser, UserIdentity]):
         self._user_repository = user_repository
         self._event_publisher = event_publisher
 
-    def handle(self, command: SignInUser) -> UserIdentity:
+    def handle(self, command: AuthenticateUser) -> UserIdentity:
         current_user_id = self._authentication_context.current_user_id()
 
         if current_user_id:
@@ -58,7 +58,7 @@ class SignInUserHandler(CommandHandler[SignInUser, UserIdentity]):
         if not self._password_hasher.check_password(command.raw_password, existing_user.password):
             raise ApplicationError(message="Password is incorrect", error_type=ErrorType.UNAUTHENTICATED)
 
-        existing_user.add_event(event=UserSignedIn(user_id=existing_user.identity))
+        existing_user.add_event(event=UserAuthenticated(user_id=existing_user.identity))
 
         for event in existing_user.raise_events():
             self._event_publisher.publish(event=event)

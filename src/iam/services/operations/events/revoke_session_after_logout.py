@@ -5,7 +5,7 @@ from iam.domain.access.session.events import SessionRevoked
 from iam.domain.access.session.specifications import IdentifiedSessionByIdentitySpec
 from iam.domain.shared.events import EventHandler
 from iam.services.common.application_error import ApplicationError, ErrorType
-from iam.services.operations.commands.logout import UserLoggedOut
+from iam.services.operations.commands.unauthenticate_user import UserUnauthenticated
 from iam.services.ports.authentication_context import AuthenticationContext
 from iam.services.ports.event_publisher import EventPublisher
 from iam.services.ports.transaction import Transaction
@@ -13,7 +13,7 @@ from iam.services.ports.transaction import Transaction
 LOGGER: structlog.stdlib.BoundLogger = structlog.get_logger()
 
 
-class RevokeSessionAfterLogout(EventHandler[UserLoggedOut]):
+class RevokeSessionAfterLogout(EventHandler[UserUnauthenticated]):
     def __init__(
         self,
         transaction: Transaction,
@@ -26,7 +26,7 @@ class RevokeSessionAfterLogout(EventHandler[UserLoggedOut]):
         self._authentication_context = authentication_context
         self._event_publisher = event_publisher
 
-    def handle(self, event: UserLoggedOut) -> None:
+    def handle(self, event: UserUnauthenticated) -> None:
         current_session_id = self._authentication_context.current_session_id()
 
         if not current_session_id:
