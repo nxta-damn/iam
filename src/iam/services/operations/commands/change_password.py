@@ -32,14 +32,14 @@ class ChangePasswordHandler(CommandHandler[ChangePassword, None]):
         self._password_hasher = password_hasher
         self._user_repository = user_repository
 
-    def handle(self, command: ChangePassword) -> None:
+    async def handle(self, command: ChangePassword) -> None:
         current_user_id = self._authentication_context.current_user_id()
 
         if not current_user_id:
             raise ApplicationError(message="User is not authenticated", error_type=ErrorType.UNAUTHENTICATED)
 
         user_by_id_spec = IdentifiedUserByIdentitySpec(identity=current_user_id)
-        current_user = self._user_repository.find(user_by_id_spec).first()
+        current_user = (await self._user_repository.find(user_by_id_spec)).first()
 
         if not current_user:
             raise ApplicationError(
@@ -52,6 +52,6 @@ class ChangePasswordHandler(CommandHandler[ChangePassword, None]):
         current_user.change_password(password=self._password_hasher.hash_password(command.new_password))
 
         for event in current_user.raise_events():
-            self._event_publisher.publish(event=event)
+            await self._event_publisher.publish(event=event)
 
         LOGGER.info("Password changed", current_user=current_user_id)

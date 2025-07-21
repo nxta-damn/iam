@@ -25,19 +25,19 @@ class GetUserSessionsHandler(QueryHandler[GetUserSessions, list[SessionReadModel
         self._authentication_context = authentication_context
         self._user_gateway = user_gateway
 
-    def handle(self, query: GetUserSessions) -> list[SessionReadModel]:
+    async def handle(self, query: GetUserSessions) -> list[SessionReadModel]:
         current_user_id = self._authentication_context.current_user_id()
 
         if not current_user_id:
             raise ApplicationError(message="User is not authenticated", error_type=ErrorType.UNAUTHENTICATED)
 
-        current_user = self._user_gateway.with_id(user_id=current_user_id)
+        current_user = await self._user_gateway.with_id(user_id=current_user_id)
 
         if not current_user:
             raise ApplicationError(
                 message=f"User with id: {current_user_id} is not found", error_type=ErrorType.NOT_FOUND
             )
 
-        user_sessions = self._session_gateway.with_user_id(current_user_id, query.pagination)
+        user_sessions = await self._session_gateway.with_user_id(current_user_id, query.pagination)
 
         return user_sessions

@@ -32,14 +32,14 @@ class ChangeUsernameHandler(CommandHandler[ChangeUsername, None]):
         self._password_hasher = password_hasher
         self._user_repository = user_repository
 
-    def handle(self, command: ChangeUsername) -> None:
+    async def handle(self, command: ChangeUsername) -> None:
         current_user_id = self._authentication_context.current_user_id()
 
         if not current_user_id:
             raise ApplicationError(message="User is not authenticated", error_type=ErrorType.UNAUTHENTICATED)
 
         user_by_id_spec = IdentifiedUserByIdentitySpec(identity=current_user_id)
-        current_user = self._user_repository.find(user_by_id_spec).first()
+        current_user = (await self._user_repository.find(user_by_id_spec)).first()
 
         if not current_user:
             raise ApplicationError(
@@ -47,7 +47,7 @@ class ChangeUsernameHandler(CommandHandler[ChangeUsername, None]):
             )
 
         user_by_username_spec = IdentifiedUserByUsernameSpec(username=command.new_username)
-        existing_user = self._user_repository.find(user_by_username_spec).first()
+        existing_user = (await self._user_repository.find(user_by_username_spec)).first()
 
         if existing_user:
             raise ApplicationError(
@@ -60,6 +60,6 @@ class ChangeUsernameHandler(CommandHandler[ChangeUsername, None]):
         current_user.change_username(username=command.new_username)
 
         for event in current_user.raise_events():
-            self._event_publisher.publish(event=event)
+            await self._event_publisher.publish(event=event)
 
         LOGGER.info("Username changed", username=command.new_username, current_user=current_user_id)

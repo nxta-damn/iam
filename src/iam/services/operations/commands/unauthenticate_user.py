@@ -34,14 +34,14 @@ class UnauthenticateUserHandler(CommandHandler[UnauthenticateUser, None]):
         self._event_publisher = event_publisher
         self._user_repository = user_repository
 
-    def handle(self, command: UnauthenticateUser) -> None:
+    async def handle(self, command: UnauthenticateUser) -> None:
         current_user_id = self._authentication_context.current_user_id()
 
         if not current_user_id:
             raise ApplicationError(message="User is not authenticated", error_type=ErrorType.UNAUTHENTICATED)
 
         user_by_identity_spec = IdentifiedUserByIdentitySpec(identity=current_user_id)
-        current_user = self._user_repository.find(user_by_identity_spec).first()
+        current_user = (await self._user_repository.find(user_by_identity_spec)).first()
 
         if not current_user:
             raise ApplicationError(
@@ -51,6 +51,6 @@ class UnauthenticateUserHandler(CommandHandler[UnauthenticateUser, None]):
         current_user.add_event(event=UserUnauthenticated(user_id=current_user_id))
 
         for event in current_user.raise_events():
-            self._event_publisher.publish(event=event)
+            await self._event_publisher.publish(event=event)
 
         LOGGER.info("User logged out", current_user=current_user_id)

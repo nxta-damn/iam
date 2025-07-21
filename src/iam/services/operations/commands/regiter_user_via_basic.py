@@ -42,7 +42,7 @@ class RegisterUserHandler(CommandHandler[RegisterUserViaBasic, UserIdentity]):
         self._authentication_context = authentication_context
         self._password_hasher = password_hasher
 
-    def handle(self, command: RegisterUserViaBasic) -> UserIdentity:
+    async def handle(self, command: RegisterUserViaBasic) -> UserIdentity:
         current_user_id = self._authentication_context.current_user_id()
 
         if current_user_id:
@@ -51,14 +51,14 @@ class RegisterUserHandler(CommandHandler[RegisterUserViaBasic, UserIdentity]):
             )
 
         user_by_username_spec = IdentifiedUserByUsernameSpec(username=command.username)
-        existing_user = self._user_repository.find(user_by_username_spec).first()
+        existing_user = (await self._user_repository.find(user_by_username_spec)).first()
 
         if existing_user:
             raise ApplicationError(
                 message=f"User with username: {command.username} exists", error_type=ErrorType.CONFLICT
             )
 
-        user = self._user_factory.create_user(
+        user = await self._user_factory.create_user(
             fullname=command.fullname,
             username=command.username,
             user_type=UserType.DEFAULT,
@@ -66,10 +66,10 @@ class RegisterUserHandler(CommandHandler[RegisterUserViaBasic, UserIdentity]):
         )
 
         for event in user.raise_events():
-            self._event_publisher.publish(event=event)
+            await self._event_publisher.publish(event=event)
 
         self._user_repository.add(user)
-        self._transaction.flush()
+        await self._transaction.flush()
 
         LOGGER.info("User signed up", username=command.username, fullname=command.fullname)
 

@@ -39,7 +39,7 @@ class AuthenticateUserHandler(CommandHandler[AuthenticateUser, UserIdentity]):
         self._user_repository = user_repository
         self._event_publisher = event_publisher
 
-    def handle(self, command: AuthenticateUser) -> UserIdentity:
+    async def handle(self, command: AuthenticateUser) -> UserIdentity:
         current_user_id = self._authentication_context.current_user_id()
 
         if current_user_id:
@@ -48,7 +48,7 @@ class AuthenticateUserHandler(CommandHandler[AuthenticateUser, UserIdentity]):
             )
 
         user_by_username_spec = IdentifiedUserByUsernameSpec(username=command.username)
-        existing_user = self._user_repository.find(user_by_username_spec).first()
+        existing_user = (await self._user_repository.find(user_by_username_spec)).first()
 
         if not existing_user:
             raise ApplicationError(
@@ -61,7 +61,7 @@ class AuthenticateUserHandler(CommandHandler[AuthenticateUser, UserIdentity]):
         existing_user.add_event(event=UserAuthenticated(user_id=existing_user.identity))
 
         for event in existing_user.raise_events():
-            self._event_publisher.publish(event=event)
+            await self._event_publisher.publish(event=event)
 
         LOGGER.info("User signed in", username=command.username)
 

@@ -29,14 +29,14 @@ class RevokeSessionAfterChangingUsername(EventHandler[UsernameChanged]):
         self._authentication_context = authentication_context
         self._event_publisher = event_publisher
 
-    def handle(self, event: UsernameChanged) -> None:
+    async def handle(self, event: UsernameChanged) -> None:
         current_session_id = self._authentication_context.current_session_id()
 
         if not current_session_id:
             raise ApplicationError(message="User is not authenticated", error_type=ErrorType.UNAUTHENTICATED)
 
         session_by_id_spec = IdentifiedSessionByIdentitySpec(current_session_id)
-        current_session = self._session_repository.find(session_by_id_spec).first()
+        current_session = (await self._session_repository.find(session_by_id_spec)).first()
 
         if not current_session:
             raise ApplicationError(
@@ -46,13 +46,13 @@ class RevokeSessionAfterChangingUsername(EventHandler[UsernameChanged]):
         specification = IdentifiedSessionByUserIdentitySpec(
             event.identity
         ) & ~IdentifiedSessionByIdentitySpec(current_session_id)
-        sessions = self._session_repository.find(specification=specification).all()
+        sessions = (await self._session_repository.find(specification=specification)).all()
 
         for session in sessions:
-            self._event_publisher.publish(event=SessionRevoked(identity=session.identity))
-            self._session_repository.delete(session=session)
+            await self._event_publisher.publish(event=SessionRevoked(identity=session.identity))
+            await self._session_repository.delete(session=session)
 
-        self._transaction.commit()
+        await self._transaction.commit()
 
         LOGGER.info(
             "Sessions revoked", user_id=event.identity, session_ids=[session.identity for session in sessions]
