@@ -24,16 +24,16 @@ class AssignSessionAfterSignInHandler(EventHandler[UserCreated]):
         self._session_repository = session_repository
         self._event_publisher = event_publisher
 
-    def handle(self, event: UserCreated) -> None:
+    async def handle(self, event: UserCreated) -> None:
         if event.user_type == UserType.SUPER_USER:
             return
 
-        session = self._session_factory.authentificate_user(user_id=event.identity)
+        session = await self._session_factory.authentificate_user(user_id=event.identity)
 
         for notifcation in session.raise_events():
-            self._event_publisher.publish(event=notifcation)
+            await self._event_publisher.publish(event=notifcation)
 
         self._session_repository.add(session=session)
-        self._transaction.commit()
+        await self._transaction.commit()
 
         LOGGER.info("Session assigned", user_id=event.identity, session_id=session.identity)

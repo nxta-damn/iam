@@ -39,9 +39,9 @@ class CreateSuperUserHandler(CommandHandler[CreateSuperUser, UserIdentity]):
         self._user_repository = user_repository
         self._transacction = transaction
 
-    def handle(self, command: CreateSuperUser) -> UserIdentity:
+    async def handle(self, command: CreateSuperUser) -> UserIdentity:
         specification = IdentifiedUserByUsernameSpec(username=command.username)
-        existing_user = self._user_repository.find(specification=specification).first()
+        existing_user = (await self._user_repository.find(specification=specification)).first()
 
         if existing_user:
             raise ApplicationError(
@@ -49,7 +49,7 @@ class CreateSuperUserHandler(CommandHandler[CreateSuperUser, UserIdentity]):
                 error_type=ErrorType.CONFLICT,
             )
 
-        super_user = self._user_factory.create_user(
+        super_user = await self._user_factory.create_user(
             fullname=command.fullaname,
             username=command.username,
             password=self._password_hasher.hash_password(command.raw_password),
@@ -57,10 +57,10 @@ class CreateSuperUserHandler(CommandHandler[CreateSuperUser, UserIdentity]):
         )
 
         for event in super_user.raise_events():
-            self._event_publisher.publish(event=event)
+            await self._event_publisher.publish(event=event)
 
         self._user_repository.add(super_user)
-        self._transacction.commit()
+        await self._transacction.commit()
 
         LOGGER.info("Super user created", username=command.username, fullname=command.fullaname)
 

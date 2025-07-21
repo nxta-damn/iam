@@ -31,14 +31,14 @@ class RefreshSessionHandler(CommandHandler[RefreshSession, None]):
         self._auth_session_repository = auth_session_repository
         self._authentication_context = authentication_context
 
-    def handle(self, _: RefreshSession) -> None:
+    async def handle(self, _: RefreshSession) -> None:
         current_session_id = self._authentication_context.current_session_id()
 
         if not current_session_id:
             raise ApplicationError(message="User is not authenticated", error_type=ErrorType.UNAUTHENTICATED)
 
         session_by_identity_spec = IdentifiedSessionByIdentitySpec(identity=current_session_id)
-        current_session = self._auth_session_repository.find(session_by_identity_spec).first()
+        current_session = (await self._auth_session_repository.find(session_by_identity_spec)).first()
 
         if not current_session:
             raise ApplicationError(
@@ -53,8 +53,8 @@ class RefreshSessionHandler(CommandHandler[RefreshSession, None]):
         current_session.prolong_expiration(expires_at=datetime.now(UTC) + timedelta(days=7))
 
         for event in current_session.raise_events():
-            self._event_publisher.publish(event=event)
+            await self._event_publisher.publish(event=event)
 
-        self._transaction.commit()
+        await self._transaction.commit()
 
         LOGGER.info("Session refreshed", session_identity=current_session_id)

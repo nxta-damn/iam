@@ -20,13 +20,13 @@ class GetCurrentUserHandler(QueryHandler[GetCurrentUser, UserReadModel]):
         self._user_gateway = user_gateway
         self._authentication_context = authentication_context
 
-    def handle(self, query: GetCurrentUser) -> UserReadModel:
+    async def handle(self, query: GetCurrentUser) -> UserReadModel:
         current_user_id = self._authentication_context.current_user_id()
 
         if not current_user_id:
             raise ApplicationError(message="User is not authenticated", error_type=ErrorType.UNAUTHENTICATED)
 
-        current_user = self._user_gateway.with_id(user_id=current_user_id)
+        current_user = await self._user_gateway.with_id(user_id=current_user_id)
 
         if not current_user:
             raise ApplicationError(

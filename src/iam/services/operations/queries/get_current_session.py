@@ -21,7 +21,7 @@ class GetCurrentSessionHandler(QueryHandler[GetCurrentSession, SessionReadModel]
         self._session_gateway = session_gateway
         self._authentication_context = authentication_context
 
-    def handle(self, query: GetCurrentSession) -> SessionReadModel:
+    async def handle(self, query: GetCurrentSession) -> SessionReadModel:
         current_session_id = self._authentication_context.current_session_id()
 
         if not current_session_id:
@@ -29,7 +29,7 @@ class GetCurrentSessionHandler(QueryHandler[GetCurrentSession, SessionReadModel]
                 message="Session is not authenticated", error_type=ErrorType.UNAUTHENTICATED
             )
 
-        current_session = self._session_gateway.with_id(session_id=current_session_id)
+        current_session = await self._session_gateway.with_id(session_id=current_session_id)
 
         if not current_session:
             raise ApplicationError(
