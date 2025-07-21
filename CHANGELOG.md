@@ -2,6 +2,22 @@
 
 <!-- version list -->
 
+## v2.0.0 (2025-07-21)
+
+### Bug Fixes
+
+- Remove policy read model
+  ([`a4444ec`](https://github.com/nxta-damn/iam/commit/a4444ec04ab9809c9b232c5fdb803739378fa8c8))
+
+### Features
+
+- Add async support
+  ([`a23cff8`](https://github.com/nxta-damn/iam/commit/a23cff8e3c663e266c454d324f86fc558e354486))
+
+- Add async support
+  ([`5aff477`](https://github.com/nxta-damn/iam/commit/5aff477168da015e04a6232d5d66d22ddeb27030))
+
+
 ## v1.4.2 (2025-07-20)
 
 ### Bug Fixes
