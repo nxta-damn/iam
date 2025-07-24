@@ -2,6 +2,17 @@
 
 <!-- version list -->
 
+## v2.1.0 (2025-07-24)
+
+### Features
+
+- Add proxies and factories for domain models
+  ([`22da3c9`](https://github.com/nxta-damn/iam/commit/22da3c9df2f8675f5ab0f44dbb2be5e9d5438017))
+
+- Add proxies and factories for domain models
+  ([`2c43b5d`](https://github.com/nxta-damn/iam/commit/2c43b5d9d50878ee9665b4c86efa25a4400d97ed))
+
+
 ## v2.0.0 (2025-07-21)
 
 ### Bug Fixes
