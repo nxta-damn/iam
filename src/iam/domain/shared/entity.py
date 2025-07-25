@@ -1,21 +1,12 @@
 from abc import ABC
 from collections.abc import Hashable
-from typing import NoReturn
 
-from iam.domain.shared.events import Event
+from iam.domain.shared.events import Event, EventTracker
 
 
 class IdentifiedEntity[TEntityID: Hashable](ABC):
     def __init__(self, identity: TEntityID) -> None:
         self.identity = identity
-
-    @property
-    def identity(self) -> TEntityID:
-        return self.identity
-
-    @identity.setter
-    def identity(self, identity: TEntityID) -> NoReturn:
-        raise AttributeError("Identity is immutable attr")
 
     def __hash__(self) -> int:
         return hash(self.identity)
@@ -33,13 +24,11 @@ class IdentifiedEntity[TEntityID: Hashable](ABC):
 
 
 class EventTrackableEntity(ABC):
-    def __init__(self) -> None:
-        self._events: list[Event] = []
+    def __init__(self, event_tracker: EventTracker) -> None:
+        self.event_tracker = event_tracker
 
     def add_event(self, event: Event) -> None:
-        self._events.append(event)
+        self.event_tracker.add_event(event)
 
     def raise_events(self) -> list[Event]:
-        events = self._events.copy()
-        self._events.clear()
-        return events
+        return self.event_tracker.raise_events()

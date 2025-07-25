@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 
+from iam.domain.identity.fullname import Fullname
 from iam.domain.identity.user import UserType
-from iam.domain.identity.value_objects.fullname import Fullname
 from iam.domain.shared.events import Event
 from iam.domain.shared.user_id import UserIdentity
 
