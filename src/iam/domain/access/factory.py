@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from iam.domain.access.session.session import IdentifiedAuthSession
+from iam.domain.access.session import IdentifiedAuthSession
 from iam.domain.shared.user_id import UserIdentity
 
 

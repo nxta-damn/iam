@@ -2,16 +2,14 @@ from dataclasses import dataclass
 
 import structlog
 
-from iam.domain.identity.contracts.factory import UserFactory
-from iam.domain.identity.contracts.repository import UserRepository
-from iam.domain.identity.specifications import IdentifiedUserByUsernameSpec
+from iam.domain.identity.factory import UserFactory
+from iam.domain.identity.fullname import Fullname
+from iam.domain.identity.repository import UserRepository
 from iam.domain.identity.user import UserType
-from iam.domain.identity.value_objects.fullname import Fullname
 from iam.domain.shared.user_id import UserIdentity
 from iam.services.common.application_error import ApplicationError, ErrorType
 from iam.services.common.markers import Command, CommandHandler
 from iam.services.ports.authentication_context import AuthenticationContext
-from iam.services.ports.event_publisher import EventPublisher
 from iam.services.ports.password_hasher import PasswordHasher
 from iam.services.ports.transaction import Transaction
 
@@ -31,14 +29,12 @@ class RegisterUserHandler(CommandHandler[RegisterUserViaBasic, UserIdentity]):
         transaction: Transaction,
         user_factory: UserFactory,
         user_repository: UserRepository,
-        event_publisher: EventPublisher,
         authentication_context: AuthenticationContext,
         password_hasher: PasswordHasher,
     ) -> None:
         self._transaction = transaction
         self._user_factory = user_factory
         self._user_repository = user_repository
-        self._event_publisher = event_publisher
         self._authentication_context = authentication_context
         self._password_hasher = password_hasher
 
@@ -50,8 +46,7 @@ class RegisterUserHandler(CommandHandler[RegisterUserViaBasic, UserIdentity]):
                 message="User is already authenticated", error_type=ErrorType.UNAUTHENTICATED
             )
 
-        user_by_username_spec = IdentifiedUserByUsernameSpec(username=command.username)
-        existing_user = (await self._user_repository.find(user_by_username_spec)).first()
+        existing_user = await self._user_repository.with_username(command.username)
 
         if existing_user:
             raise ApplicationError(
@@ -64,9 +59,6 @@ class RegisterUserHandler(CommandHandler[RegisterUserViaBasic, UserIdentity]):
             user_type=UserType.DEFAULT,
             password=self._password_hasher.hash_password(command.raw_password),
         )
-
-        for event in user.raise_events():
-            await self._event_publisher.publish(event=event)
 
         self._user_repository.add(user)
         await self._transaction.flush()

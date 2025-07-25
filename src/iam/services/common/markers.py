@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
+from collections.abc import Callable, Coroutine
 from dataclasses import dataclass
+from typing import Any
 
 
 @dataclass(frozen=True, kw_only=True, slots=True)
@@ -18,3 +20,8 @@ class QueryHandler[TQuery: Query, TRes](ABC):
 class CommandHandler[TCommand: Command, TRes](ABC):
     @abstractmethod
     async def handle(self, command: TCommand) -> TRes: ...
+
+
+class Middleware[TReq, TRes](ABC):
+    @abstractmethod
+    async def handle(self, request: TReq, process: Callable[[TReq], Coroutine[Any, Any, TRes]]) -> TRes: ...

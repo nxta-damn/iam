@@ -1,8 +1,9 @@
 from enum import StrEnum
 
 from iam.domain.identity.events import FullnameChanged, PasswordChanged, UsernameChanged
-from iam.domain.identity.value_objects.fullname import Fullname
+from iam.domain.identity.fullname import Fullname
 from iam.domain.shared.entity import EventTrackableEntity, IdentifiedEntity
+from iam.domain.shared.events import EventTracker
 from iam.domain.shared.user_id import UserIdentity
 
 
@@ -15,13 +16,15 @@ class IdentifiedUser(IdentifiedEntity[UserIdentity], EventTrackableEntity):
     def __init__(
         self,
         identity: UserIdentity,
+        event_tracker: EventTracker,
         *,
         fullname: Fullname,
         username: str,
         password: bytes,
         user_type: UserType = UserType.DEFAULT,
     ) -> None:
-        IdentifiedEntity.__init__(self, identity)
+        IdentifiedEntity.__init__(self, identity=identity)
+        EventTrackableEntity.__init__(self, event_tracker=event_tracker)
 
         self.fullname = fullname
         self.username = username

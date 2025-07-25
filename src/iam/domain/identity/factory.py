@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
+from iam.domain.identity.fullname import Fullname
 from iam.domain.identity.user import IdentifiedUser, UserType
-from iam.domain.identity.value_objects.fullname import Fullname
 
 
 class UserFactory(ABC):
