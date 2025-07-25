@@ -2,6 +2,17 @@
 
 <!-- version list -->
 
+## v3.0.0 (2025-07-25)
+
+### Features
+
+- Remove specification and add support for middlewares
+  ([`1c0d587`](https://github.com/nxta-damn/iam/commit/1c0d587ac99672dda6795c9ed497d1ac66ce7b55))
+
+- Remove specification and add support for middlewares
+  ([`0bd69ee`](https://github.com/nxta-damn/iam/commit/0bd69ee797a078582018798ddea99efcefb12233))
+
+
 ## v2.1.0 (2025-07-24)
 
 ### Features
